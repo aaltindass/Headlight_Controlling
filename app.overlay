@@ -1,0 +1,31 @@
+#include <zephyr/dt-bindings/pwm/pwm.h>
+
+/ {
+    pwm_mosfets {
+        compatible = "pwm-leds";
+        mosfet_ch1: mosfet_ch_1 {
+            pwms = <&pwm3 1 PWM_USEC(500) PWM_POLARITY_NORMAL>;
+        };
+        mosfet_ch2: mosfet_ch_2 {
+            pwms = <&pwm3 2 PWM_USEC(500) PWM_POLARITY_NORMAL>;
+        };
+        mosfet_ch3: mosfet_ch_3 {
+            pwms = <&pwm3 3 PWM_USEC(500) PWM_POLARITY_NORMAL>;
+        };
+        mosfet_ch4: mosfet_ch_4 {
+            pwms = <&pwm3 4 PWM_USEC(500) PWM_POLARITY_NORMAL>;
+        };
+    };
+};
+
+/* 1. TIM3 Ana Zamanlayıcıyı Etkinleştir */
+&timers3 {
+    status = "okay";
+};
+
+/* 2. TIM3 PWM Alt Birimini ve Pin Çıkışlarını Etkinleştir */
+&pwm3 {
+    status = "okay";
+    pinctrl-0 = <&tim3_ch1_pc6 &tim3_ch2_pc7 &tim3_ch3_pc8 &tim3_ch4_pc9>;
+    pinctrl-names = "default";
+};

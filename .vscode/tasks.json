@@ -1,0 +1,110 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Zephyr: Build",
+            "type": "shell",
+            "command": "west",
+            "args": [
+                "build",
+                "-b",
+                "nucleo_f303ze",
+                ".",
+                "--",
+                "-DBOARD_ROOT=${workspaceFolder}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Zephyr: Clean Build",
+            "type": "shell",
+            "command": "west",
+            "args": [
+                "build",
+                "-p",
+                "always",
+                "-b",
+                "nucleo_f303ze",
+                ".",
+                "--",
+                "-DBOARD_ROOT=${workspaceFolder}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Zephyr: Flash",
+            "type": "shell",
+            "command": "west",
+            "args": [
+                "flash",
+                "--build-dir",
+                "build",
+                "-r",
+                "openocd"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Zephyr: Build and Flash",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Zephyr: Build",
+                "Zephyr: Flash"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Zephyr: Clean Build and Flash",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Zephyr: Clean Build",
+                "Zephyr: Flash"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Zephyr: Start OpenOCD Server",
+            "type": "shell",
+            "command": "west",
+            "args": [
+                "debugserver",
+                "--build-dir",
+                "build",
+                "-r",
+                "openocd"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "openocd",
+                "pattern": {
+                    "regexp": ".*"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Open On-Chip Debugger",
+                    "endsPattern": "Listening on port 3333 for gdb connections"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    // Clangd C/C++ Yapılandırması (Zephyr RTOS için optimize edilmiş)
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/build",
+        "--header-insertion=never",
+        "--query-driver=/home/aaltindas/zephyr-sdk-0.17.0/arm-zephyr-eabi/bin/arm-zephyr-eabi-*"
+    ],
+    "clangd.checkUpdates": false,
+
+    // Python - Pyright, Virtualenv & Ruff Yapılandırması
+    "python.defaultInterpreterPath": "/home/aaltindas/zephyrproject/.venv/bin/python",
+    "python.languageServer": "None",
+    "python.analysis.typeCheckingMode": "basic",
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        }
+    }
+}
