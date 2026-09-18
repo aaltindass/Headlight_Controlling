@@ -1,0 +1,54 @@
+name: Publish Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract Release Notes from CHANGELOG.md
+        id: extract_notes
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          echo "Extracting release notes for tag: ${TAG_NAME}"
+
+          # Extract notes between target version and next version header
+          awk -v tag="${TAG_NAME}" '
+            $0 ~ "^## \\[" tag "\\]" { recording = 1; next }
+            recording && /^## \[/ { exit }
+            recording { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md
+
+          # Trim leading and trailing empty lines from RELEASE_NOTES.md
+          sed -i -e :a -e '/^\n*$/{$d;N;};/\n$/ba' RELEASE_NOTES.md 2>/dev/null || true
+
+          # If release notes are empty (e.g. tag not in changelog), provide a fallback
+          if [ ! -s RELEASE_NOTES.md ]; then
+            echo "Release ${TAG_NAME} automatically published by GitHub Actions." > RELEASE_NOTES.md
+          fi
+
+          echo "--- Release Notes Preview ---"
+          cat RELEASE_NOTES.md
+          echo "-----------------------------"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Release ${{ github.ref_name }}"
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
