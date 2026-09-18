@@ -1,15 +1,15 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## [v0.1.1] - 2026-09-18
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+- 4 Kanallı Mosfet Sürücüsünün her kanalını %100 duty cycle ve %0 duty cycle olmak üzere 1 saniye aralıklarla açıp kapatan test kodu eklendi.
+- Kesme (Interrupt) destekli acil durdurma (Emergency Stop) özelliği eklendi. Butona basıldığında tüm çıkışlar kesiliyor.
 
 ## [v0.1.0] - 2026-09-18
 
 ### Added
-- Initial project architecture for Zephyr RTOS Headlight Control.
-- `MosfetController` class providing 4-channel PWM and GPIO output management.
-- `AppTasks` containing `SelfTestTask`, `MosfetWorkerTask`, and interrupt-driven `SafetyTask`.
-- Board devicetree overlay (`app.overlay`) and Kconfig (`prj.conf`) configurations.
-- Cortex-Debug and OpenOCD debugging support for STM32 targets.
+- 4 Kanallı Mosfet Sürücüsünün her kanalını %100 duty cycle ve %0 duty cycle olmak üzere 1 saniye aralıklarla açıp kapatan test kodu eklendi.
+- Kesme (Interrupt) destekli acil durdurma (Emergency Stop) özelliği eklendi. Butona basıldığında tüm çıkışlar kesiliyor.
+
+### Fixed
+- 
